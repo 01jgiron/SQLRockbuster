@@ -44,7 +44,7 @@ film inventory, customers, and payments, among other things. The first thing you
 do is load the data set into the PostgreSQL database. Keep in mind the following points
 regarding the data set:
 
-● It’s around 3MB and contains several files.
+● It’s around 3MB and contains several files. This can be found linked in the project brief. 
 
 ● A relationship exists between two tables if a column name is present in both tables.
 
