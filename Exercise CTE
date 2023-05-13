@@ -1,52 +1,52 @@
-##Excercise 3: Common SQL commands, including basic CRUD operation:
+/*Excercise 3: Common SQL commands, including basic CRUD operation:*/
 
-##Find out what films genres already exist in the category tables
-SELECT category_id, name FROM category
+/*Find out what films genres already exist in the category tables
+SELECT category_id, name FROM category*/
 
-##Add the genres 
+/*Add the genres*/ 
 INSERT INTO category (category_id, name)VALUES (17,'Thriller'),(18,'Crime'), (19,'Mystery'), (20, 'Romance'), (21, 'War')
 
-##The genre for the movie African Egg needs to be updated to thriller
+/*The genre for the movie African Egg needs to be updated to thriller*/
 SELECT film_id FROM film WHERE title='African Eagle'
 UPDATE film_category SET category_id=17 WHERE film_id=5
 
-##Since there aren’t many movies in the mystery category, you and your manager decide to remove it from the category table.
-##Write a DELETE command
+/*Since there aren’t many movies in the mystery category, you and your manager decide to remove it from the category table.*/
+/*Write a DELETE command*/
 
 DELETE FROM category WHERE name='Mystery'
 
 Exercise 4: Database Querying in SQL
 
-##Refining Your Query: You need to get some data from the “film” table.
+/*Refining Your Query: You need to get some data from the “film” table.*/
 
 SELECT * FROM film
 
-##You realize that only the “film_id” and “title” columns are needed. 
+/*You realize that only the “film_id” and “title” columns are needed.*/ 
 
 SELECT film_id, title FROM film
 
-##Explain the cost difference: Both commands Cost=0 and both have 64 rows. The difference is the width. The first query has a width of 19 and the second query has a width of 384. The first query is a more efficient run because other columns from the table are not being pulled.
-##In order to make this query even more efficient one can add a LIMIT and GROUP BY command.
+/*Explain the cost difference: Both commands Cost=0 and both have 64 rows. The difference is the width. The first query has a width of 19 and the second query has a width of 384. The first query is a more efficient run because other columns from the table are not being pulled.
+In order to make this query even more efficient one can add a LIMIT and GROUP BY command.*/
 
-##Order the data:
+/*Order the data:*/
 
-##Alphabetical Order 
+/*Alphabetical Order*/ 
 
 SELECT film_id, title, release_year, rental_rate FROM film ORDER BY title ASC
 
-##Timeline order
+/*Timeline order*/
 
 SELECT film_id, title, release_year, rental_rate FROM film ORDER BY release_year DESC
 
-##Descending rental rate 
+/*Descending rental rate*/ 
 
 SELECT film_id, title, release_year, rental_rate FROM film ORDER BY rental_rate DESC
 
-##Group data to answer the following: 
+/*Group data to answer the following:*/ 
 
-##What is the average rental rate for each rating category?
+/*What is the average rental rate for each rating category?*/
 
-##What are the minimum and maximum rental durations for each rating category?
+/*What are the minimum and maximum rental durations for each rating category?*/
 
 SELECT rating
 AVG(rental_rate)
@@ -55,41 +55,41 @@ MAX (rental_duration)
 FROM film
 GROUP BY rating 
 
-##Exercise 5: Filtering Data
+/*Exercise 5: Filtering Data*/
 
-##Write some SQL queries to return a lists of films that meet the following conditions.
+/*Write some SQL queries to return a lists of films that meet the following conditions.*/
 
-##Film title contains the word Uptown in any position
+/*Film title contains the word Uptown in any position*/
 
 SELECT title, film_id, description
 FROM film
 WHERE title LIKE '%UPTOWN%'
 
-##Film length is more than 120 minutes and rental rate is more than 2.99
+/*Film length is more than 120 minutes and rental rate is more than 2.99*/
 
 SELECT title, film_id, description, rental_rate, length
 FROM film
 WHERE length>120 AND rental_rate>2.99
 
-##Rental duration is between 3 and 7 days (where 3 and 7 aren’t inclusive)
+/*Rental duration is between 3 and 7 days (where 3 and 7 aren’t inclusive)*/
 
 SELECT title, film_id, description, rental_duration
 FROM film
 WHERE rental_duration > '3' AND rental_duration < '7'
 
-##Film replacement cost is less than 14.99
+/*Film replacement cost is less than 14.99*/
 
 SELECT title, film_id, description, replacement_cost
 FROM film
 WHERE replacement_cost < 14.99
 
-##Film rating is either PG or G
+/*Film rating is either PG or G*/
 
 SELECT title, film_id, description, rating
 FROM film
 WHERE rating IN ('PG', 'G')
 
-##Find the count of movies, average rental rates, maximum rental duration and minimum rental duration using the previous query
+/*Find the count of movies, average rental rates, maximum rental duration and minimum rental duration using the previous query*/
 
 SELECT
 COUNT (film_id) AS count_of_movies,
@@ -99,7 +99,7 @@ MAX (rental_duration) AS max_rental_duration
 FROM film
 WHERE rating IN ('PG', 'G')
 
-##The customer team would like to see the fields you calculated in the previous step grouped by rating.
+/*The customer team would like to see the fields you calculated in the previous step grouped by rating.*/
 
 SELECT
 COUNT (film_id) AS count_of_movies,
@@ -110,12 +110,12 @@ FROM film
 WHERE rating IN ('PG', 'G')
 GROUP BY rating 
 
-##Exercise 6: Summarizing and cleaning data in SQL
+/*Exercise 6: Summarizing and cleaning data in SQL*/
 
-##Check for and clean dirty data: Find out if the film table and the customer table contain any dirty data
-##specifically non-uniform or duplicate data, or missing values.
+/*Check for and clean dirty data: Find out if the film table and the customer table contain any dirty data
+specifically non-uniform or duplicate data, or missing values.*/
 
-##Duplicates
+/*Duplicates*/
 
 SELECT title, release_year,
 language_id, rental_duration,
@@ -136,24 +136,24 @@ GROUP BY store_id, first_name,
 last_name, email
 HAVING COUNT (*) >1;
 
-##No duplicates where found in either query. If found, duplicates would be fixed by creating a virtual table with unique record or deleting them.
+/*No duplicates where found in either query. If found, duplicates would be fixed by creating a virtual table with unique record or deleting them.*/
 
-##Non-uniform data
+/*Non-uniform data*/
 
 SELECT DISTINCT rating FROM film
 SELECT DISTINCT release_year FROM film
 SELECT DISTINCT activebool FROM customer
 SELECT DISTINCT active FROM customer
 
-##All data was uniform, the following query is an example of how to use the UPDATE function in order to make the data uniform
+/*All data was uniform, the following query is an example of how to use the UPDATE function in order to make the data uniform*/
 
-##UPDATE film
+/*UPDATE film
 SET rating = 'G'
 WHERE rating IN ('gen',
                  'g',
-                 'General')
+                 'General')*/
 
-##Missing Data
+/*Missing Data*/
 
 SELECT * FROM film WHERE title IS NULL
 SELECT * FROM film WHERE rating IS NULL
@@ -163,16 +163,16 @@ SELECT * FROM customer WHERE customer_id IS NULL
 SELECT * FROM customer WHERE email IS NULL
 SELECT * FROM customer WHERE address IS NULL
 
-##There were no missing data present but is so the following would be done to fix the issue:
-##ignore columns with a high percentage of missing values. To do so in SQL, you simply omit whichever column you want to ignore from your SELECT statement
-##replace the nulls with a dummy or default value 
-##Replace nulls with a average, medial, or modal value
+/*There were no missing data present but is so the following would be done to fix the issue:
+ignore columns with a high percentage of missing values. To do so in SQL, you simply omit whichever column you want to ignore from your SELECT statement
+replace the nulls with a dummy or default value 
+Replace nulls with a average, medial, or modal value*/
 
-##Summarize the data by calculating descriptive statistics for both the film table and customer table. 
+/*Summarize the data by calculating descriptive statistics for both the film table and customer table.*/ 
 
-##film table
+film table
 
-##quantative data
+quantative data*/
 
 SELECT MIN(rental_duration)AS min_rental_duration,
  MAX(rental_duration)AS max_rental_duration,
@@ -194,7 +194,7 @@ SELECT MIN(rental_duration)AS min_rental_duration,
 FROM film
 
 
-##qualatative data 
+/*qualatative data*/ 
 
 SELECT MODE() WITHIN GROUP (ORDER BY title) AS
 title_mode_value,
@@ -211,7 +211,7 @@ AS last_update_mode_value,
  MODE() WITHIN GROUP (ORDER BY fulltext) AS
 fulltext_mode_value
 
-##customer table
+/*customer table*/
  
 SELECT MODE() WITHIN GROUP (ORDER BY first_name) AS first_name_mode_value,
  MODE() WITHIN GROUP (ORDER BY last_name) AS last_name_mode_value,
@@ -220,9 +220,9 @@ SELECT MODE() WITHIN GROUP (ORDER BY first_name) AS first_name_mode_value,
  MODE() WITHIN GROUP (ORDER BY active) AS active_mode_value
 FROM customer
 
-##Joining tables of data
+/*Joining tables of data*/
 
-##Write a query to find the top 10 countries for Rockbuster in terms of customer numbers.
+/*Write a query to find the top 10 countries for Rockbuster in terms of customer numbers.*/
 
 SELECT D.country,
 COUNT (customer_id) AS count_of_customers
@@ -234,7 +234,7 @@ GROUP BY country
 ORDER BY COUNT (customer_id) DESC
 LIMIT 10
 
-##Write a query to find the top 10 cities within the top 10 countries
+/*Write a query to find the top 10 cities within the top 10 countries*/
 
 SELECT D. country, C. city,
 COUNT (customer_id)
@@ -246,7 +246,7 @@ GROUP BY country, city
 ORDER BY COUNT DESC
 LIMIT 10
 
-##Write a query to find the top 5 customers in the top 10 cities who have paid the highest total amounts to Rockbuster.
+/*Write a query to find the top 5 customers in the top 10 cities who have paid the highest total amounts to Rockbuster.*/
 
 SELECT A. customer_id, A.first_name, A.last_name, D.country, C.city,
 SUM (E.amount) AS total_paid_amount
@@ -260,9 +260,9 @@ GROUP BY A.customer_id, first_name, last_name, country, city
 ORDER BY total_paid_amount DESC 
 LIMIT 5
 
-##Exercise 8: Performing subqueries
+/*Exercise 8: Performing subqueries*/
 
-##Find the average amount paid by the top 5 customers
+/*Find the average amount paid by the top 5 customers*/
 
 SELECT AVG(total_paid_amount)AS "average"
 FROM
@@ -278,7 +278,7 @@ GROUP BY A. customer_id, first_name, last_name, country, city
 ORDER BY SUM(E.amount) DESC
 LIMIT 5) AS total_paid_amount
 
-##Find out how many of the top 5 customers are based within each country
+/*Find out how many of the top 5 customers are based within each country*/
 
 SELECT D.country, COUNT (A.customer_id)AS all_customer_count, COUNT(top_5_customers)AS top_5_customer_count
 FROM customer A
@@ -302,9 +302,9 @@ GROUP BY D.country
 HAVING COUNT (top_5_customers)>0
 ORDER BY COUNT(top_5_customers),COUNT (A.customer_id)DESC
 
-##Exercise 9: Common table expressions
+/*Exercise 9: Common table expressions*/
 
-## Find the average amount paid by the top 5 customers. Answer as CTE
+/*Find the average amount paid by the top 5 customers. Answer as CTE*/
 
 WITH top_5_customers (customer_id, first_name, last_name, country, city, total_paid_amount) AS
 (SELECT A. customer_id, A. first_name, A. last_name, D. country, C. city, SUM(E. amount) as
@@ -322,7 +322,7 @@ LIMIT 5 )
 SELECT AVG(total_paid_amount) as average
 FROM top_5_customers
 
-#Find out how many of the top 5 customers are based within each country. Answer as CTE
+/*Find out how many of the top 5 customers are based within each country. Answer as CTE*/
 
 WITH top_5_customers (customer_id, first_name, last_name, country, city, total_paid_amount) AS
 (SELECT A. customer_id, A. first_name, A. last_name, D. country, C. city, SUM(E. amount) AS
@@ -348,8 +348,8 @@ GROUP BY D.country
 HAVING COUNT (top_5_customers)>0
 ORDER BY COUNT (top_5_customers),COUNT (A.customer_id)DESC
 
-##The most notable difference between and subquery and a CTE is the syntax.
-##CTE syntax is always written at the beginning of the query and overall makes the query easier to read.
+/*The most notable difference between and subquery and a CTE is the syntax.
+CTE syntax is always written at the beginning of the query and overall makes the query easier to read.*/
 
 
 
